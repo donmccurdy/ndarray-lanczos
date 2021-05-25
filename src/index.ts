@@ -17,11 +17,12 @@ function resize(src: NdArray, dst: NdArray, method: Method): void {
 	const filtersX = filters(srcWidth, dstWidth, ratioX, 0, method === Method.LANCZOS_2);
 	const filtersY = filters(srcHeight, dstHeight, ratioY, 0, method === Method.LANCZOS_2);
 
-	let tmp = ndarray(new Uint8Array(dstWidth * srcHeight * 4), [dstWidth, srcHeight, 4]);
+	const tmp = ndarray(new Uint8Array(dstWidth * srcHeight * 4), [srcHeight, dstWidth, 4]);
+	const tmpTranspose = tmp.transpose(1, 0);
+	const dstTranspose = dst.transpose(1, 0);
 
-	convolve(src, tmp, filtersX);
-	tmp = tmp.transpose(1, 0);
-	convolve(tmp, dst, filtersY);
+	convolve(src, tmpTranspose, filtersX);
+	convolve(tmp, dstTranspose, filtersY);
 }
 
 export function lanczos3(src: NdArray, dst: NdArray): void {

@@ -10,10 +10,11 @@ export const convolve = (src: NdArray, dst: NdArray, filters: Int16Array) => {
 
 	// For each row
 	for (let srcY = 0; srcY < srcHeight; srcY++) {
-		let filterPtr = 0;
+		const dstY = srcY;
 
 		// Apply precomputed filters to each destination row point
-		for ( let dstX = 0; dstX < dstWidth; dstX++ ) {
+		let filterPtr = 0;
+		for (let dstX = 0; dstX < dstWidth; dstX++) {
 			// Get the filter that determines the current output pixel.
 			let srcX = filters[filterPtr++];
 
@@ -40,10 +41,10 @@ export const convolve = (src: NdArray, dst: NdArray, filters: Int16Array) => {
 			// (!) Add 1/2 of value before clamping to get proper rounding. In other
 			// case brightness loss will be noticeable if you resize image with white
 			// border and place it on white background.
-			dst.set(dstX, srcY, 0, clamp( ( r + ( 1 << 13 ) ) >> fixedFracBits ) );
-			dst.set(dstX, srcY, 1, clamp( ( g + ( 1 << 13 ) ) >> fixedFracBits ) );
-			dst.set(dstX, srcY, 2, clamp( ( b + ( 1 << 13 ) ) >> fixedFracBits ) );
-			dst.set(dstX, srcY, 3, clamp( ( a + ( 1 << 13 ) ) >> fixedFracBits ) );
+			dst.set(dstX, dstY, 0, clamp( ( r + ( 1 << 13 ) ) >> fixedFracBits ) );
+			dst.set(dstX, dstY, 1, clamp( ( g + ( 1 << 13 ) ) >> fixedFracBits ) );
+			dst.set(dstX, dstY, 2, clamp( ( b + ( 1 << 13 ) ) >> fixedFracBits ) );
+			dst.set(dstX, dstY, 3, clamp( ( a + ( 1 << 13 ) ) >> fixedFracBits ) );
 		}
 	}
 }

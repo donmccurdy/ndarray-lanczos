@@ -7,7 +7,33 @@
 
 Resize an [ndarray](https://www.npmjs.com/package/ndarray) with [Lanczos resampling](https://en.wikipedia.org/wiki/Lanczos_resampling).
 
-> _**NOTICE:** Work in progress._
+## Quickstart
+
+Installation:
+
+```
+npm install --save ndarray-lanczos
+```
+
+Use:
+
+```ts
+import ndarray from 'ndarray';
+import { getPixels, savePixels } from 'ndarray-pixels';
+import { lanczos3 } from 'ndarray-lanczos';
+
+// Read PNG.
+const srcPixels = await getPixels('full-size.png');
+
+// Resize with Lanczos 3 resampling.
+const dstPixels = ndarray(new Uint8Array(width * height * 4).fill(0), [width, height, 4]);
+lanczos3(srcPixels, dstPixels);
+
+// Write PNG.
+const data = await savePixels(dstPixels, 'image/png'); // → Uint8Array
+```
+
+Two filtering methods, `lanczos3` and `lanczos2`, are included. If the image is rotated differently than expected, try `pixels.transpose(1, 0)`.
 
 ## Credits
 
