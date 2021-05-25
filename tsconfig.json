@@ -5,6 +5,7 @@
 		"target": "es6",
 		"declaration": true,
 		"typeRoots": ["node_modules/@types"],
+		"esModuleInterop": true,
 		"strict": true,
 	},
 }
