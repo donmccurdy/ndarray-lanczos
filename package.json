@@ -5,6 +5,7 @@
   "main": "dist/ndarray-lanczos.js",
   "module": "dist/ndarray-lanczos.modern.js",
   "types": "dist/src/src/index.d.ts",
+  "sideEffects": false,
   "repository": "github:donmccurdy/ndarray-lanczos",
   "author": "Don McCurdy <dm@donmccurdy.com>",
   "license": "MIT",
