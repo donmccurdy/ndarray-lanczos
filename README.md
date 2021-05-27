@@ -34,7 +34,7 @@ lanczos3(srcPixels, dstPixels);
 const data = await savePixels(dstPixels, 'image/png'); // → Uint8Array
 ```
 
-Two filtering methods, `lanczos3` and `lanczos2`, are included. If the image is rotated differently than expected, try `pixels.transpose(1, 0)`.
+Two filtering methods, `lanczos3` and `lanczos2`, are included.
 
 ## Credits
 
