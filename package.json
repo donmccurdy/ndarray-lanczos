@@ -24,7 +24,7 @@
     "@types/tape": "4.13.1",
     "@typescript-eslint/eslint-plugin": "4.25.0",
     "coveralls": "3.1.1",
-    "eslint": "7.27.0",
+    "eslint": "7.31.0",
     "microbundle": "0.13.3",
     "ndarray-pixels": "0.1.6",
     "nyc": "15.1.0",
