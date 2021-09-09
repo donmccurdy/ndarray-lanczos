@@ -28,7 +28,7 @@
     "microbundle": "0.13.3",
     "ndarray-pixels": "0.1.6",
     "nyc": "15.1.0",
-    "source-map-support": "0.5.19",
+    "source-map-support": "0.5.20",
     "tap-spec": "5.0.0",
     "tape": "5.3.1",
     "ts-node": "10.2.1",
