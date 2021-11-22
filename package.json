@@ -22,17 +22,17 @@
   },
   "devDependencies": {
     "@types/tape": "4.13.2",
-    "@typescript-eslint/eslint-plugin": "5.3.1",
+    "@typescript-eslint/eslint-plugin": "5.4.0",
     "coveralls": "3.1.1",
     "eslint": "7.32.0",
-    "microbundle": "0.14.1",
+    "microbundle": "0.14.2",
     "ndarray-pixels": "1.0.0",
     "nyc": "15.1.0",
-    "source-map-support": "0.5.20",
+    "source-map-support": "0.5.21",
     "tap-spec": "5.0.0",
-    "tape": "5.3.1",
+    "tape": "5.3.2",
     "ts-node": "10.4.0",
-    "typescript": "4.4.4"
+    "typescript": "4.5.2"
   },
   "files": [
     "dist/",
