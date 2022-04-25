@@ -22,9 +22,9 @@
   },
   "devDependencies": {
     "@types/tape": "4.13.2",
-    "@typescript-eslint/eslint-plugin": "5.18.0",
+    "@typescript-eslint/eslint-plugin": "5.20.0",
     "coveralls": "3.1.1",
-    "eslint": "8.13.0",
+    "eslint": "8.14.0",
     "microbundle": "0.14.2",
     "ndarray-pixels": "1.0.0",
     "nyc": "15.1.0",
