@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@types/tape": "4.13.2",
-    "@typescript-eslint/eslint-plugin": "5.47.1",
+    "@typescript-eslint/eslint-plugin": "5.48.0",
     "coveralls": "3.1.1",
     "eslint": "8.31.0",
     "microbundle": "0.15.1",
