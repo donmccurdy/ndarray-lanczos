@@ -1,6 +1,6 @@
 require('source-map-support').install();
 
-import ndarray, { TypedArray } from 'ndarray';
+import ndarray from 'ndarray';
 import { getPixels } from 'ndarray-pixels';
 import test from 'tape';
 import { lanczos2, lanczos3 } from '../';

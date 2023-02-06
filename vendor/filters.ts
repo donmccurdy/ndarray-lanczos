@@ -11,7 +11,7 @@ const filterValue = ( x: number, a: 2 | 3 ) => {
 	const xPi = x * Math.PI
 
 	return ( Math.sin( xPi ) / xPi ) * Math.sin( xPi / a ) / ( xPi / a )
-};
+}
 
 export const filters = (
 	srcSize: number,
@@ -23,7 +23,7 @@ export const filters = (
 	intType: TypedArrayConstructor,
 	fixedFracBits: number
 ) => {
-	const mul = (2 ** fixedFracBits) - 1;
+	const mul = (2 ** fixedFracBits) - 1
 	const toFixedPoint = (value: number) => Math.round(value * mul)
 
 	const a = use2 ? 2 : 3

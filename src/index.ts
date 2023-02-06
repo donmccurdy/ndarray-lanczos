@@ -7,7 +7,9 @@ enum Method {
 	LANCZOS_2 = 2,
 }
 
-function resize(src: NdArray<TypedArray>, dst: NdArray<TypedArray>, method: Method): void {
+export type SupportedTypes = Uint8Array | Uint8ClampedArray | Uint16Array | Uint32Array
+
+function resize(src: NdArray<SupportedTypes>, dst: NdArray<SupportedTypes>, method: Method): void {
 	const [srcWidth, srcHeight] = src.shape;
 	const [dstWidth, dstHeight] = dst.shape;
 
@@ -45,10 +47,10 @@ function resize(src: NdArray<TypedArray>, dst: NdArray<TypedArray>, method: Meth
 	convolve(tmp, dstTranspose, filtersY, fixedFracBits);
 }
 
-export function lanczos3(src: NdArray<TypedArray>, dst: NdArray<TypedArray>): void {
+export function lanczos3(src: NdArray<SupportedTypes>, dst: NdArray<SupportedTypes>): void {
 	resize(src, dst, Method.LANCZOS_3);
 }
 
-export function lanczos2(src: NdArray<TypedArray>, dst: NdArray<TypedArray>): void {
+export function lanczos2(src: NdArray<SupportedTypes>, dst: NdArray<SupportedTypes>): void {
 	resize(src, dst, Method.LANCZOS_2);
 }
