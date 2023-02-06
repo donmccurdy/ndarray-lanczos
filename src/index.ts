@@ -10,6 +10,10 @@ enum Method {
 export type SupportedTypes = Uint8Array | Uint8ClampedArray | Uint16Array | Uint32Array
 
 function resize(src: NdArray<SupportedTypes>, dst: NdArray<SupportedTypes>, method: Method): void {
+	if (src.shape.length !== 3 || dst.shape.length !== 3)
+		throw new TypeError
+			('Input and output must have exactly 3 dimensions (width, height and colorspace)');
+
 	const [srcWidth, srcHeight] = src.shape;
 	const [dstWidth, dstHeight] = dst.shape;
 
