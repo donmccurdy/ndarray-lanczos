@@ -75,14 +75,16 @@ test('resize down - lanczos3 non-square', async (t) => {
 
 test('upscale Uint16 data', async (t) => {
 	const pattern = ndarray(new Uint16Array([
-		0, 500, 1000, 500,
-		0, 500, 1000, 500
-	]), [ 2, 4, 1 ])
-	const output = ndarray(new Uint16Array(12), [2, 6, 1])
+		0,   500, 1000, 500,
+		500, 500, 500,  500,
+		0,   500, 1000, 500
+	]), [ 3, 4, 1 ])
+	const output = ndarray(new Uint16Array(18), [3, 6, 1])
 	const expected = ndarray(new Uint16Array([
-		0, 164, 640, 1011, 764, 440,
-		0, 164, 640, 1011, 764, 440
-	]), [2, 6, 1])
+		0,   164, 640, 1011, 764, 440,
+		500, 500, 500, 500,  500, 500,
+		0,   164, 640, 1011, 764, 440
+	]), [3, 6, 1])
 
 	lanczos3(pattern, output);
 
@@ -94,14 +96,16 @@ test('upscale Uint16 data', async (t) => {
 
 test('downscale Uint16 data', async (t) => {
 	const pattern = ndarray(new Uint16Array([
-		0, 164, 640, 1011, 764, 440,
-		0, 164, 640, 1011, 764, 440
-	]), [2, 6, 1]);
-	const output = ndarray(new Uint16Array(8), [2, 4, 1]);
+		0,   164, 640, 1011, 764, 440,
+		500, 500, 500,  500, 500, 500,
+		0,   164, 640, 1011, 764, 440
+	]), [3, 6, 1]);
+	const output = ndarray(new Uint16Array(12), [3, 4, 1]);
 	const expected = ndarray(new Uint16Array([
-		6, 520, 969, 525,
-		6, 520, 969, 525
-	]), [2, 4, 1]);
+		6,   520, 969, 525,
+		500, 500, 500, 500,
+		6,   520, 969, 525
+	]), [3, 4, 1]);
 
 	lanczos3(pattern, output);
 
@@ -113,14 +117,16 @@ test('downscale Uint16 data', async (t) => {
 
 test('upscale Uint32 data', async (t) => {
 	const pattern = ndarray(new Uint32Array([
-		0, 500, 1000, 500,
-		0, 500, 1000, 500
-	]), [2, 4, 1]);
-	const output = ndarray(new Uint32Array(12), [2, 6, 1]);
+		0,   500, 1000, 500,
+		500, 500,  500, 500,
+		0,   500, 1000, 500
+	]), [3, 4, 1]);
+	const output = ndarray(new Uint32Array(18), [3, 6, 1]);
 	const expected = ndarray(new Uint32Array([
-		0, 164, 640, 1011, 764, 440,
-		0, 164, 640, 1011, 764, 440
-	]), [2, 6, 1]);
+		0,   164, 640, 1011, 764, 440,
+		500, 500, 500,  500, 500, 500,
+		0,   164, 640, 1011, 764, 440
+	]), [3, 6, 1]);
 
 	lanczos3(pattern, output);
 
@@ -132,14 +138,16 @@ test('upscale Uint32 data', async (t) => {
 
 test('downscale Uint32 data', async (t) => {
 	const pattern = ndarray(new Uint32Array([
-		0, 164, 640, 1011, 764, 440,
-		0, 164, 640, 1011, 764, 440
-	]), [2, 6, 1]);
-	const output = ndarray(new Uint32Array(8), [2, 4, 1]);
+		0,   164, 640, 1011, 764, 440,
+		500, 500, 500,  500, 500, 500,
+		0,   164, 640, 1011, 764, 440
+	]), [3, 6, 1]);
+	const output = ndarray(new Uint32Array(12), [3, 4, 1]);
 	const expected = ndarray(new Uint32Array([
-		6, 520, 969, 525,
-		6, 520, 969, 525
-	]), [2, 4, 1]);
+		6,   520, 969, 525,
+		500, 500, 500, 500,
+		6,   520, 969, 525
+	]), [3, 4, 1]);
 
 	lanczos3(pattern, output);
 
