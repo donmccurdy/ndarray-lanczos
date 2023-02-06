@@ -54,10 +54,10 @@ function resize(
 	convolve(tmp, dstTranspose, filtersY, fixedFracBits);
 }
 
-export function lanczos3(src: NdArray<SupportedTypes>, dst: NdArray<SupportedTypes>): void {
+export function lanczos3(src: NdArray<SupportedTypes | number[]>, dst: NdArray<SupportedTypes>): void {
 	resize(src, dst, Method.LANCZOS_3);
 }
 
-export function lanczos2(src: NdArray<SupportedTypes>, dst: NdArray<SupportedTypes>): void {
+export function lanczos2(src: NdArray<SupportedTypes | number[]>, dst: NdArray<SupportedTypes>): void {
 	resize(src, dst, Method.LANCZOS_2);
 }
