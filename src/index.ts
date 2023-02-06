@@ -1,4 +1,4 @@
-import ndarray, { NdArray, TypedArray } from 'ndarray';
+import ndarray, { NdArray } from 'ndarray';
 import { filters, TypedArrayConstructor } from '../vendor/filters';
 import { convolve } from './convolve';
 
