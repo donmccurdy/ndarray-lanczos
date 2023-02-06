@@ -1,6 +1,6 @@
 import type { NdArray, TypedArray } from 'ndarray';
 
-export const convolve = (src: NdArray<TypedArray>, dst: NdArray<TypedArray>, filters: TypedArray, fixedFracBits: number) => {
+export const convolve = (src: NdArray<TypedArray | number[]>, dst: NdArray<TypedArray>, filters: TypedArray, fixedFracBits: number) => {
 	const [_, srcHeight] = src.shape;
 	const [dstWidth] = dst.shape;
 
