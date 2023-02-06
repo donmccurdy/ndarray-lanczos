@@ -1,20 +1,31 @@
-const fixedFracBits = 14
+export type TypedArrayConstructor = Int8ArrayConstructor | Int16ArrayConstructor | Int32ArrayConstructor |
+	Uint8ArrayConstructor | Uint8ClampedArrayConstructor | Uint16ArrayConstructor |
+	Uint32ArrayConstructor | Float32ArrayConstructor | Float64ArrayConstructor
 
 const filterValue = ( x: number, a: 2 | 3 ) => {
 	if ( x <= -a || x >= a ) return 0
 
 	// appears to do nothing?
-	// if ( x > -1.19209290e-07 && x < 1.19209290e-07 ) return 1
+	if ( x > -1.19209290e-07 && x < 1.19209290e-07 ) return 1
 
 	const xPi = x * Math.PI
 
 	return ( Math.sin( xPi ) / xPi ) * Math.sin( xPi / a ) / ( xPi / a )
-}
+};
 
-const toFixedPoint = ( value: number ) =>
-Math.round( value * ( ( 1 << fixedFracBits ) - 1 ) )
+export const filters = (
+	srcSize: number,
+	destSize: number,
+	scale: number,
+	offset: number,
+	use2: boolean,
+	floatType: TypedArrayConstructor,
+	intType: TypedArrayConstructor,
+	fixedFracBits: number
+) => {
+	const mul = (2 ** fixedFracBits) - 1;
+	const toFixedPoint = (value: number) => Math.round(value * mul)
 
-export const filters = ( srcSize: number, destSize: number, scale: number, offset: number, use2: boolean ) => {
 	const a = use2 ? 2 : 3
 	const scaleInverted = 1 / scale
 	const scaleClamped = Math.min( 1, scale ) // For upscale
@@ -23,7 +34,7 @@ export const filters = ( srcSize: number, destSize: number, scale: number, offse
 	const srcWindow = a / scaleClamped
 
 	const maxFilterElementSize = Math.floor( ( srcWindow + 1 ) * 2 )
-	const packedFilter = new Int16Array( ( maxFilterElementSize + 2 ) * destSize )
+	const packedFilter = new intType( ( maxFilterElementSize + 2 ) * destSize )
 	let packedFilterPtr = 0
 
 	// For each destination pixel calculate source range and built filter values
@@ -35,8 +46,8 @@ export const filters = ( srcSize: number, destSize: number, scale: number, offse
 		const sourceLast = Math.min( srcSize - 1, Math.ceil( sourcePixel + srcWindow ) )
 
 		const filterElementSize = sourceLast - sourceFirst + 1
-		const floatFilter = new Float32Array( filterElementSize )
-		const fxpFilter = new Int16Array( filterElementSize )
+		const floatFilter = new floatType( filterElementSize )
+		const fxpFilter = new intType( filterElementSize )
 
 		let total = 0
 
