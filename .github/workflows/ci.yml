@@ -15,6 +15,9 @@ jobs:
       matrix:
         node-version: [14.x]
 
+    env:
+      CI: true
+
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
@@ -24,5 +27,13 @@ jobs:
     - run: yarn install
     - run: yarn dist
     - run: yarn test
-      env:
-        CI: true
+
+    # Coverage.
+    - name: Run coverage
+      run: |
+        yarn coverage
+        yarn coverage:report
+    - name: Report coverage
+      uses: codecov/codecov-action@v3
+      with:
+        files: coverage/coverage.lcov
