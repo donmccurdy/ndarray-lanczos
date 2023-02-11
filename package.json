@@ -1,6 +1,6 @@
 {
   "name": "ndarray-lanczos",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Resize an ndarray with Lanczos resampling",
   "main": "dist/ndarray-lanczos.js",
   "module": "dist/ndarray-lanczos.modern.js",
