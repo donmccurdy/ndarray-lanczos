@@ -1,8 +1,6 @@
-require('source-map-support').install();
-
 import ndarray from 'ndarray';
 import { getPixels } from 'ndarray-pixels';
-import test from 'tape';
+import test from 'ava';
 import { lanczos2, lanczos3 } from '../';
 
 const createImage = (w: number, h: number): ndarray.NdArray<Uint8Array> => {
@@ -34,7 +32,6 @@ test('resize down - lanczos3', async (t) => {
 	t.deepEqual(patternHalf.shape, expectedPatternHalf.shape, 'shape');
 	t.deepEqual(patternHalf.stride, expectedPatternHalf.stride, 'stride');
 	t.deepEqual(Array.from(patternHalf.data), Array.from(expectedPatternHalf.data), 'data');
-	t.end();
 });
 
 test('resize down - lanczos2', async (t) => {
@@ -46,7 +43,6 @@ test('resize down - lanczos2', async (t) => {
 	t.deepEqual(patternHalf.shape, expectedPatternHalf2.shape, 'shape');
 	t.deepEqual(patternHalf.stride, expectedPatternHalf2.stride, 'stride');
 	t.deepEqual(patternHalf, expectedPatternHalf2, 'data');
-	t.end();
 });
 
 test('resize up - lanczos3', async (t) => {
@@ -58,7 +54,6 @@ test('resize up - lanczos3', async (t) => {
 	t.deepEqual(patternDouble.shape, expectedPatternDouble.shape, 'shape');
 	t.deepEqual(patternDouble.stride, expectedPatternDouble.stride, 'stride');
 	t.deepEqual(patternDouble, expectedPatternDouble, 'data');
-	t.end();
 });
 
 test('resize down - lanczos3 non-square', async (t) => {
@@ -70,7 +65,6 @@ test('resize down - lanczos3 non-square', async (t) => {
 	t.deepEqual(patternTiledHalf.shape, expectedPatternTiledHalf.shape, 'shape');
 	t.deepEqual(patternTiledHalf.stride, expectedPatternTiledHalf.stride, 'stride');
 	t.deepEqual(patternTiledHalf, expectedPatternTiledHalf, 'data');
-	t.end();
 });
 
 test('upscale Uint16 data', async (t) => {
@@ -91,7 +85,6 @@ test('upscale Uint16 data', async (t) => {
 	t.deepEqual(output.shape, expected.shape, 'shape');
 	t.deepEqual(output.stride, expected.stride, 'stride');
 	t.deepEqual(output, expected, 'data');
-	t.end();
 });
 
 test('downscale Uint16 data', async (t) => {
@@ -112,7 +105,6 @@ test('downscale Uint16 data', async (t) => {
 	t.deepEqual(output.shape, expected.shape, 'shape');
 	t.deepEqual(output.stride, expected.stride, 'stride');
 	t.deepEqual(output, expected, 'data');
-	t.end();
 });
 
 test('upscale Uint32 data', async (t) => {
@@ -133,7 +125,6 @@ test('upscale Uint32 data', async (t) => {
 	t.deepEqual(output.shape, expected.shape, 'shape');
 	t.deepEqual(output.stride, expected.stride, 'stride');
 	t.deepEqual(output, expected, 'data');
-	t.end();
 });
 
 test('downscale Uint32 data', async (t) => {
@@ -154,5 +145,4 @@ test('downscale Uint32 data', async (t) => {
 	t.deepEqual(output.shape, expected.shape, 'shape');
 	t.deepEqual(output.stride, expected.stride, 'stride');
 	t.deepEqual(output, expected, 'data');
-	t.end();
 });
