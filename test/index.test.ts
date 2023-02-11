@@ -5,20 +5,20 @@ import { getPixels } from 'ndarray-pixels';
 import test from 'tape';
 import { lanczos2, lanczos3 } from '../';
 
-const createImage = (w: number, h: number): ndarray.NdArray => {
+const createImage = (w: number, h: number): ndarray.NdArray<Uint8Array> => {
 	const image = ndarray(new Uint8Array(w * h * 4).fill(0), [h, w, 4]);
 	return image.transpose(1, 0); // https://github.com/scijs/get-pixels/issues/52
 };
 
-const FIXTURES: Promise<Record<string, ndarray.NdArray>> = new Promise(async (resolve, reject) => {
+const FIXTURES: Promise<Record<string, ndarray.NdArray<Uint8Array>>> = new Promise(async (resolve, reject) => {
 	try {
 		resolve({
-			pattern: await getPixels(`${__dirname}/fixtures/pattern.png`),
-			patternTiled: await getPixels(`${__dirname}/fixtures/pattern-tiled.png`),
-			expectedPatternHalf: await getPixels(`${__dirname}/fixtures/pattern-half.png`),
-			expectedPatternHalf2: await getPixels(`${__dirname}/fixtures/pattern-half-2.png`),
-			expectedPatternDouble: await getPixels(`${__dirname}/fixtures/pattern-double.png`),
-			expectedPatternTiledHalf: await getPixels(`${__dirname}/fixtures/pattern-tiled-half.png`),
+			pattern: await getPixels(`${__dirname}/fixtures/pattern.png`) as ndarray.NdArray<Uint8Array>,
+			patternTiled: await getPixels(`${__dirname}/fixtures/pattern-tiled.png`) as ndarray.NdArray<Uint8Array>,
+			expectedPatternHalf: await getPixels(`${__dirname}/fixtures/pattern-half.png`) as ndarray.NdArray<Uint8Array>,
+			expectedPatternHalf2: await getPixels(`${__dirname}/fixtures/pattern-half-2.png`) as ndarray.NdArray<Uint8Array>,
+			expectedPatternDouble: await getPixels(`${__dirname}/fixtures/pattern-double.png`) as ndarray.NdArray<Uint8Array>,
+			expectedPatternTiledHalf: await getPixels(`${__dirname}/fixtures/pattern-tiled-half.png`) as ndarray.NdArray<Uint8Array>,
 		});
 	} catch (e) {
 		reject(e);
@@ -26,7 +26,7 @@ const FIXTURES: Promise<Record<string, ndarray.NdArray>> = new Promise(async (re
 });
 
 test('resize down - lanczos3', async (t) => {
-	const {pattern, expectedPatternHalf} = await FIXTURES;
+	const { pattern, expectedPatternHalf } = await FIXTURES;
 	let patternHalf = createImage(4, 4);
 
 	lanczos3(pattern, patternHalf);
@@ -38,7 +38,7 @@ test('resize down - lanczos3', async (t) => {
 });
 
 test('resize down - lanczos2', async (t) => {
-	const {pattern, expectedPatternHalf2} = await FIXTURES;
+	const { pattern, expectedPatternHalf2 } = await FIXTURES;
 	const patternHalf = createImage(4, 4);
 
 	lanczos2(pattern, patternHalf);
@@ -50,7 +50,7 @@ test('resize down - lanczos2', async (t) => {
 });
 
 test('resize up - lanczos3', async (t) => {
-	const {pattern, expectedPatternDouble} = await FIXTURES;
+	const { pattern, expectedPatternDouble } = await FIXTURES;
 	const patternDouble = createImage(16, 16);
 
 	lanczos3(pattern, patternDouble);
@@ -62,7 +62,7 @@ test('resize up - lanczos3', async (t) => {
 });
 
 test('resize down - lanczos3 non-square', async (t) => {
-	const {patternTiled, expectedPatternTiledHalf} = await FIXTURES;
+	const { patternTiled, expectedPatternTiledHalf } = await FIXTURES;
 	const patternTiledHalf = createImage(16, 4);
 
 	lanczos3(patternTiled, patternTiledHalf);
@@ -70,5 +70,89 @@ test('resize down - lanczos3 non-square', async (t) => {
 	t.deepEqual(patternTiledHalf.shape, expectedPatternTiledHalf.shape, 'shape');
 	t.deepEqual(patternTiledHalf.stride, expectedPatternTiledHalf.stride, 'stride');
 	t.deepEqual(patternTiledHalf, expectedPatternTiledHalf, 'data');
+	t.end();
+});
+
+test('upscale Uint16 data', async (t) => {
+	const pattern = ndarray(new Uint16Array([
+		0,   500, 1000, 500,
+		500, 500, 500,  500,
+		0,   500, 1000, 500
+	]), [ 3, 4, 1 ])
+	const output = ndarray(new Uint16Array(18), [3, 6, 1])
+	const expected = ndarray(new Uint16Array([
+		0,   164, 640, 1011, 764, 440,
+		500, 500, 500, 500,  500, 500,
+		0,   164, 640, 1011, 764, 440
+	]), [3, 6, 1])
+
+	lanczos3(pattern, output);
+
+	t.deepEqual(output.shape, expected.shape, 'shape');
+	t.deepEqual(output.stride, expected.stride, 'stride');
+	t.deepEqual(output, expected, 'data');
+	t.end();
+});
+
+test('downscale Uint16 data', async (t) => {
+	const pattern = ndarray(new Uint16Array([
+		0,   164, 640, 1011, 764, 440,
+		500, 500, 500,  500, 500, 500,
+		0,   164, 640, 1011, 764, 440
+	]), [3, 6, 1]);
+	const output = ndarray(new Uint16Array(12), [3, 4, 1]);
+	const expected = ndarray(new Uint16Array([
+		6,   520, 969, 525,
+		500, 500, 500, 500,
+		6,   520, 969, 525
+	]), [3, 4, 1]);
+
+	lanczos3(pattern, output);
+
+	t.deepEqual(output.shape, expected.shape, 'shape');
+	t.deepEqual(output.stride, expected.stride, 'stride');
+	t.deepEqual(output, expected, 'data');
+	t.end();
+});
+
+test('upscale Uint32 data', async (t) => {
+	const pattern = ndarray(new Uint32Array([
+		0,   500, 1000, 500,
+		500, 500,  500, 500,
+		0,   500, 1000, 500
+	]), [3, 4, 1]);
+	const output = ndarray(new Uint32Array(18), [3, 6, 1]);
+	const expected = ndarray(new Uint32Array([
+		0,   164, 640, 1011, 764, 440,
+		500, 500, 500,  500, 500, 500,
+		0,   164, 640, 1011, 764, 440
+	]), [3, 6, 1]);
+
+	lanczos3(pattern, output);
+
+	t.deepEqual(output.shape, expected.shape, 'shape');
+	t.deepEqual(output.stride, expected.stride, 'stride');
+	t.deepEqual(output, expected, 'data');
+	t.end();
+});
+
+test('downscale Uint32 data', async (t) => {
+	const pattern = ndarray(new Uint32Array([
+		0,   164, 640, 1011, 764, 440,
+		500, 500, 500,  500, 500, 500,
+		0,   164, 640, 1011, 764, 440
+	]), [3, 6, 1]);
+	const output = ndarray(new Uint32Array(12), [3, 4, 1]);
+	const expected = ndarray(new Uint32Array([
+		6,   520, 969, 525,
+		500, 500, 500, 500,
+		6,   520, 969, 525
+	]), [3, 4, 1]);
+
+	lanczos3(pattern, output);
+
+	t.deepEqual(output.shape, expected.shape, 'shape');
+	t.deepEqual(output.stride, expected.stride, 'stride');
+	t.deepEqual(output, expected, 'data');
 	t.end();
 });

@@ -1,12 +1,13 @@
-import type { NdArray } from 'ndarray';
+import type { NdArray, TypedArray } from 'ndarray';
 
-const fixedFracBits = 14;
-
-const clamp = (v: number): number => v < 0 ? 0 : (v > 255 ? 255 : v);
-
-export const convolve = (src: NdArray, dst: NdArray, filters: Int16Array) => {
+export const convolve = (src: NdArray<TypedArray | number[]>, dst: NdArray<TypedArray>, filters: TypedArray, fixedFracBits: number) => {
 	const [_, srcHeight] = src.shape;
 	const [dstWidth] = dst.shape;
+
+	const maxValue = 2 ** (dst.data.BYTES_PER_ELEMENT * 8) - 1;
+	const clamp = (v: number): number => v < 0 ? 0 : (v > maxValue ? maxValue : v);
+	const fixedFracMul = 2 ** (fixedFracBits - 1);
+	const fixedFracMul2 = 2 * fixedFracMul;
 
 	// For each row
 	for (let srcY = 0; srcY < srcHeight; srcY++) {
@@ -41,10 +42,10 @@ export const convolve = (src: NdArray, dst: NdArray, filters: Int16Array) => {
 			// (!) Add 1/2 of value before clamping to get proper rounding. In other
 			// case brightness loss will be noticeable if you resize image with white
 			// border and place it on white background.
-			dst.set(dstX, dstY, 0, clamp( ( r + ( 1 << 13 ) ) >> fixedFracBits ) );
-			dst.set(dstX, dstY, 1, clamp( ( g + ( 1 << 13 ) ) >> fixedFracBits ) );
-			dst.set(dstX, dstY, 2, clamp( ( b + ( 1 << 13 ) ) >> fixedFracBits ) );
-			dst.set(dstX, dstY, 3, clamp( ( a + ( 1 << 13 ) ) >> fixedFracBits ) );
+			dst.set(dstX, dstY, 0, clamp( ( r + fixedFracMul ) / fixedFracMul2 ) );
+			dst.set(dstX, dstY, 1, clamp( ( g + fixedFracMul ) / fixedFracMul2 ) );
+			dst.set(dstX, dstY, 2, clamp( ( b + fixedFracMul ) / fixedFracMul2 ) );
+			dst.set(dstX, dstY, 3, clamp( ( a + fixedFracMul ) / fixedFracMul2 ) );
 		}
 	}
 }
