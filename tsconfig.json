@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"paths": { "ndarray-lanczos": ["./"] },
 		"moduleResolution": "nodenext",
 		"lib": ["es6"],
 		"target": "es6",
@@ -8,6 +9,5 @@
 		"typeRoots": ["node_modules/@types"],
 		"esModuleInterop": true,
 		"strict": true,
-	},
-	"include": ["src/*", "vendor/*"]
+	}
 }
