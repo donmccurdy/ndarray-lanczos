@@ -1,13 +1,14 @@
 {
 	"compilerOptions": {
-		"moduleResolution": "node",
-		"lib": ["es6"],
-		"target": "es6",
+		"paths": { "ndarray-lanczos": ["./"] },
+		"moduleResolution": "nodenext",
+		"lib": ["es2020"],
+		"target": "es2020",
+		"module": "es2020",
 		"declaration": true,
 		"declarationDir": "dist",
 		"typeRoots": ["node_modules/@types"],
 		"esModuleInterop": true,
 		"strict": true,
-	},
-	"include": ["src/*", "vendor/*"]
+	}
 }

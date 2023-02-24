@@ -1,7 +1,11 @@
+import test from 'ava';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import ndarray from 'ndarray';
 import { getPixels } from 'ndarray-pixels';
-import test from 'ava';
-import { lanczos2, lanczos3 } from '../';
+import { lanczos2, lanczos3 } from 'ndarray-lanczos';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const createImage = (w: number, h: number): ndarray.NdArray<Uint8Array> => {
 	const image = ndarray(new Uint8Array(w * h * 4).fill(0), [h, w, 4]);
