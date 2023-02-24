@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"moduleResolution": "node",
+		"moduleResolution": "nodenext",
 		"lib": ["es6"],
 		"target": "es6",
 		"declaration": true,

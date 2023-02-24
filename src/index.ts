@@ -1,6 +1,6 @@
 import ndarray, { NdArray } from 'ndarray';
-import { filters, TypedArrayConstructor } from '../vendor/filters';
-import { convolve } from './convolve';
+import { filters, TypedArrayConstructor } from '../vendor/filters.js';
+import { convolve } from './convolve.js';
 
 enum Method {
 	LANCZOS_3 = 3,
