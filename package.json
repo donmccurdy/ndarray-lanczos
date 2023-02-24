@@ -1,6 +1,6 @@
 {
   "name": "ndarray-lanczos",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Resize an ndarray with Lanczos resampling",
   "type": "module",
   "sideEffects": false,
