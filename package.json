@@ -30,11 +30,11 @@
   },
   "devDependencies": {
     "@types/tape": "4.13.2",
-    "@typescript-eslint/eslint-plugin": "5.54.0",
+    "@typescript-eslint/eslint-plugin": "5.55.0",
     "ava": "^5.2.0",
     "c8": "^7.13.0",
     "coveralls": "3.1.1",
-    "eslint": "8.35.0",
+    "eslint": "8.36.0",
     "microbundle": "0.15.1",
     "ndarray-pixels": "2.0.1",
     "rimraf": "^4.1.2",
