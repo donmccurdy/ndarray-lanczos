@@ -2,7 +2,7 @@
 
 [![Latest NPM release](https://img.shields.io/npm/v/ndarray-lanczos.svg)](https://www.npmjs.com/package/ndarray-lanczos)
 [![License](https://img.shields.io/badge/license-MIT-007ec6.svg)](https://github.com/donmccurdy/ndarray-lanczos/blob/main/LICENSE)
-[![Minzipped size](https://badgen.net/bundlephobia/minzip/ndarray-lanczos)](https://bundlephobia.com/result?p=ndarray-lanczos)
+[![npm bundle size](https://img.shields.io/bundlephobia/minzip/ndarray-lanczos)](https://bundlephobia.com/package/ndarray-lanczos)
 [![CI](https://github.com/donmccurdy/ndarray-lanczos/workflows/CI/badge.svg?branch=main&event=push)](https://github.com/donmccurdy/ndarray-lanczos/actions?query=workflow%3ACI)
 [![Coverage](https://codecov.io/gh/donmccurdy/ndarray-pixels/branch/main/graph/badge.svg?token=S30LCC3L04)](https://codecov.io/gh/donmccurdy/ndarray-pixels)
 
