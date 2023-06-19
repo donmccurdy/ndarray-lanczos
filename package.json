@@ -29,7 +29,7 @@
     "postversion": "git push && git push --tags && npm publish && yarn coverage:report"
   },
   "devDependencies": {
-    "@types/tape": "4.13.4",
+    "@types/tape": "5.6.0",
     "@typescript-eslint/eslint-plugin": "5.59.11",
     "ava": "^5.2.0",
     "c8": "^7.13.0",
