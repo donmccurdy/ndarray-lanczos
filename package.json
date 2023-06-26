@@ -29,14 +29,16 @@
     "postversion": "git push && git push --tags && npm publish && yarn coverage:report"
   },
   "devDependencies": {
+    "@types/node": "^20.3.1",
     "@types/tape": "5.6.0",
     "@typescript-eslint/eslint-plugin": "5.60.0",
+    "@typescript-eslint/parser": "^5.60.0",
     "ava": "^5.2.0",
     "c8": "^8.0.0",
     "coveralls": "3.1.1",
     "eslint": "8.43.0",
     "microbundle": "0.15.1",
-    "ndarray-pixels": "2.0.4",
+    "ndarray-pixels": "3.0.4",
     "rimraf": "^5.0.0",
     "ts-node": "10.9.1",
     "typescript": "5.1.3"
