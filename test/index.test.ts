@@ -1,6 +1,7 @@
 import test from 'ava';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { readFile } from 'node:fs/promises';
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import ndarray from 'ndarray';
 import { getPixels } from 'ndarray-pixels';
 import { lanczos2, lanczos3 } from 'ndarray-lanczos';
@@ -12,20 +13,23 @@ const createImage = (w: number, h: number): ndarray.NdArray<Uint8Array> => {
 	return image.transpose(1, 0); // https://github.com/scijs/get-pixels/issues/52
 };
 
-const FIXTURES: Promise<Record<string, ndarray.NdArray<Uint8Array>>> = new Promise(async (resolve, reject) => {
-	try {
-		resolve({
-			pattern: await getPixels(`${__dirname}/fixtures/pattern.png`) as ndarray.NdArray<Uint8Array>,
-			patternTiled: await getPixels(`${__dirname}/fixtures/pattern-tiled.png`) as ndarray.NdArray<Uint8Array>,
-			expectedPatternHalf: await getPixels(`${__dirname}/fixtures/pattern-half.png`) as ndarray.NdArray<Uint8Array>,
-			expectedPatternHalf2: await getPixels(`${__dirname}/fixtures/pattern-half-2.png`) as ndarray.NdArray<Uint8Array>,
-			expectedPatternDouble: await getPixels(`${__dirname}/fixtures/pattern-double.png`) as ndarray.NdArray<Uint8Array>,
-			expectedPatternTiledHalf: await getPixels(`${__dirname}/fixtures/pattern-tiled-half.png`) as ndarray.NdArray<Uint8Array>,
-		});
-	} catch (e) {
-		reject(e);
-	}
-});
+const FIXTURES: Promise<Record<string, ndarray.NdArray<Uint8Array>>> = Promise.all([
+	readFile(`${__dirname}/fixtures/pattern.png`),
+	readFile(`${__dirname}/fixtures/pattern-tiled.png`),
+	readFile(`${__dirname}/fixtures/pattern-half.png`),
+	readFile(`${__dirname}/fixtures/pattern-half-2.png`),
+	readFile(`${__dirname}/fixtures/pattern-double.png`),
+	readFile(`${__dirname}/fixtures/pattern-tiled-half.png`),
+])
+	.then((images) => Promise.all(images.map((image) => getPixels(image, 'image/png'))))
+	.then((pixels) => ({
+		pattern: pixels[0],
+		patternTiled: pixels[1],
+		expectedPatternHalf: pixels[2],
+		expectedPatternHalf2: pixels[3],
+		expectedPatternDouble: pixels[4],
+		expectedPatternTiledHalf: pixels[5],
+	}));
 
 test('resize down - lanczos3', async (t) => {
 	const { pattern, expectedPatternHalf } = await FIXTURES;
@@ -72,17 +76,12 @@ test('resize down - lanczos3 non-square', async (t) => {
 });
 
 test('upscale Uint16 data', async (t) => {
-	const pattern = ndarray(new Uint16Array([
-		0,   500, 1000, 500,
-		500, 500, 500,  500,
-		0,   500, 1000, 500
-	]), [ 3, 4, 1 ])
-	const output = ndarray(new Uint16Array(18), [3, 6, 1])
-	const expected = ndarray(new Uint16Array([
-		0,   164, 640, 1011, 764, 440,
-		500, 500, 500, 500,  500, 500,
-		0,   164, 640, 1011, 764, 440
-	]), [3, 6, 1])
+	const pattern = ndarray(new Uint16Array([0, 500, 1000, 500, 500, 500, 500, 500, 0, 500, 1000, 500]), [3, 4, 1]);
+	const output = ndarray(new Uint16Array(18), [3, 6, 1]);
+	const expected = ndarray(
+		new Uint16Array([0, 164, 640, 1011, 764, 440, 500, 500, 500, 500, 500, 500, 0, 164, 640, 1011, 764, 440]),
+		[3, 6, 1]
+	);
 
 	lanczos3(pattern, output);
 
@@ -92,17 +91,12 @@ test('upscale Uint16 data', async (t) => {
 });
 
 test('downscale Uint16 data', async (t) => {
-	const pattern = ndarray(new Uint16Array([
-		0,   164, 640, 1011, 764, 440,
-		500, 500, 500,  500, 500, 500,
-		0,   164, 640, 1011, 764, 440
-	]), [3, 6, 1]);
+	const pattern = ndarray(
+		new Uint16Array([0, 164, 640, 1011, 764, 440, 500, 500, 500, 500, 500, 500, 0, 164, 640, 1011, 764, 440]),
+		[3, 6, 1]
+	);
 	const output = ndarray(new Uint16Array(12), [3, 4, 1]);
-	const expected = ndarray(new Uint16Array([
-		6,   520, 969, 525,
-		500, 500, 500, 500,
-		6,   520, 969, 525
-	]), [3, 4, 1]);
+	const expected = ndarray(new Uint16Array([6, 520, 969, 525, 500, 500, 500, 500, 6, 520, 969, 525]), [3, 4, 1]);
 
 	lanczos3(pattern, output);
 
@@ -112,17 +106,12 @@ test('downscale Uint16 data', async (t) => {
 });
 
 test('upscale Uint32 data', async (t) => {
-	const pattern = ndarray(new Uint32Array([
-		0,   500, 1000, 500,
-		500, 500,  500, 500,
-		0,   500, 1000, 500
-	]), [3, 4, 1]);
+	const pattern = ndarray(new Uint32Array([0, 500, 1000, 500, 500, 500, 500, 500, 0, 500, 1000, 500]), [3, 4, 1]);
 	const output = ndarray(new Uint32Array(18), [3, 6, 1]);
-	const expected = ndarray(new Uint32Array([
-		0,   164, 640, 1011, 764, 440,
-		500, 500, 500,  500, 500, 500,
-		0,   164, 640, 1011, 764, 440
-	]), [3, 6, 1]);
+	const expected = ndarray(
+		new Uint32Array([0, 164, 640, 1011, 764, 440, 500, 500, 500, 500, 500, 500, 0, 164, 640, 1011, 764, 440]),
+		[3, 6, 1]
+	);
 
 	lanczos3(pattern, output);
 
@@ -132,17 +121,12 @@ test('upscale Uint32 data', async (t) => {
 });
 
 test('downscale Uint32 data', async (t) => {
-	const pattern = ndarray(new Uint32Array([
-		0,   164, 640, 1011, 764, 440,
-		500, 500, 500,  500, 500, 500,
-		0,   164, 640, 1011, 764, 440
-	]), [3, 6, 1]);
+	const pattern = ndarray(
+		new Uint32Array([0, 164, 640, 1011, 764, 440, 500, 500, 500, 500, 500, 500, 0, 164, 640, 1011, 764, 440]),
+		[3, 6, 1]
+	);
 	const output = ndarray(new Uint32Array(12), [3, 4, 1]);
-	const expected = ndarray(new Uint32Array([
-		6,   520, 969, 525,
-		500, 500, 500, 500,
-		6,   520, 969, 525
-	]), [3, 4, 1]);
+	const expected = ndarray(new Uint32Array([6, 520, 969, 525, 500, 500, 500, 500, 6, 520, 969, 525]), [3, 4, 1]);
 
 	lanczos3(pattern, output);
 
