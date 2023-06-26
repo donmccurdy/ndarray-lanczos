@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@types/tape": "5.6.0",
-    "@typescript-eslint/eslint-plugin": "5.59.11",
+    "@typescript-eslint/eslint-plugin": "5.60.0",
     "ava": "^5.2.0",
     "c8": "^8.0.0",
     "coveralls": "3.1.1",
