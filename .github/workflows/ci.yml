@@ -7,33 +7,32 @@ on:
         branches: [main]
 
 jobs:
-  build:
+    build:
+        runs-on: ubuntu-latest
 
-    runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [18.x, 20.x]
 
-    strategy:
-      matrix:
-        node-version: [18.x]
+        env:
+            CI: true
 
-    env:
-      CI: true
+        steps:
+            - uses: actions/checkout@v4
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - run: yarn install
+            - run: yarn dist
+            - run: yarn test
 
-    steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: yarn install
-    - run: yarn dist
-    - run: yarn test
-
-    # Coverage.
-    - name: Run coverage
-      run: |
-        yarn coverage
-        yarn coverage:report
-    - name: Report coverage
-      uses: codecov/codecov-action@v3
-      with:
-        files: coverage/coverage.lcov
+            # Coverage.
+            - name: Run coverage
+              run: |
+                  yarn coverage
+                  yarn coverage:report
+            - name: Report coverage
+              uses: codecov/codecov-action@v3
+              with:
+                  files: coverage/coverage.lcov

@@ -1,66 +1,66 @@
 {
-  "name": "ndarray-lanczos",
-  "version": "0.3.0",
-  "description": "Resize an ndarray with Lanczos resampling",
-  "type": "module",
-  "sideEffects": false,
-  "source": "./src/index.ts",
-  "types": "./dist/src/index.d.ts",
-  "main": "./dist/ndarray-lanczos.cjs",
-  "module": "./dist/ndarray-lanczos.modern.js",
-  "exports": {
-    "types": "./dist/src/index.d.ts",
-    "require": "./dist/ndarray-lanczos.cjs",
-    "default": "./dist/ndarray-lanczos.modern.js"
-  },
-  "repository": "github:donmccurdy/ndarray-lanczos",
-  "author": "Don McCurdy <dm@donmccurdy.com>",
-  "license": "MIT",
-  "scripts": {
-    "dist": "microbundle --format modern,cjs --define PACKAGE_VERSION=$npm_package_version",
-    "watch": "microbundle watch --format modern,cjs --define PACKAGE_VERSION=$npm_package_version",
-    "watch:debug": "microbundle watch --no-compress --format modern,cjs --define PACKAGE_VERSION=$npm_package_version",
-    "clean": "rimraf dist/*",
-    "test": "ava test/*.test.ts",
-    "coverage": "c8 --reporter=lcov --reporter=text ava test/*.test.ts --tap",
-    "coverage:report": "c8 report --reporter=text-lcov > coverage/coverage.lcov",
-    "preversion": "yarn clean && yarn dist && yarn test",
-    "version": "yarn dist && git add -u",
-    "postversion": "git push && git push --tags && npm publish && yarn coverage:report"
-  },
-  "devDependencies": {
-    "@types/node": "^20.8.2",
-    "@types/tape": "5.6.4",
-    "@typescript-eslint/eslint-plugin": "6.13.1",
-    "@typescript-eslint/parser": "^6.7.4",
-    "ava": "^5.2.0",
-    "c8": "^8.0.0",
-    "coveralls": "3.1.1",
-    "eslint": "8.55.0",
-    "microbundle": "0.15.1",
-    "ndarray-pixels": "3.1.0",
-    "rimraf": "^5.0.5",
-    "ts-node": "10.9.1",
-    "typescript": "5.3.2"
-  },
-  "files": [
-    "dist/",
-    "src/",
-    "vendor/",
-    "README.md",
-    "LICENSE",
-    "package.json"
-  ],
-  "dependencies": {
-    "@types/ndarray": "^1.0.11",
-    "ndarray": "^1.0.19"
-  },
-  "ava": {
-    "extensions": {
-      "ts": "module"
-    },
-    "nodeArguments": [
-      "--loader=ts-node/esm"
-    ]
-  }
+	"name": "ndarray-lanczos",
+	"version": "0.3.0",
+	"description": "Resize an ndarray with Lanczos resampling",
+	"type": "module",
+	"sideEffects": false,
+	"source": "./src/index.ts",
+	"types": "./dist/src/index.d.ts",
+	"main": "./dist/ndarray-lanczos.cjs",
+	"module": "./dist/ndarray-lanczos.modern.js",
+	"exports": {
+		"types": "./dist/src/index.d.ts",
+		"require": "./dist/ndarray-lanczos.cjs",
+		"default": "./dist/ndarray-lanczos.modern.js"
+	},
+	"repository": "github:donmccurdy/ndarray-lanczos",
+	"author": "Don McCurdy <dm@donmccurdy.com>",
+	"license": "MIT",
+	"scripts": {
+		"dist": "microbundle --format modern,cjs --define PACKAGE_VERSION=$npm_package_version",
+		"watch": "microbundle watch --format modern,cjs --define PACKAGE_VERSION=$npm_package_version",
+		"watch:debug": "microbundle watch --no-compress --format modern,cjs --define PACKAGE_VERSION=$npm_package_version",
+		"clean": "rimraf dist/*",
+		"test": "ava --no-worker-threads test/*.test.ts",
+		"coverage": "c8 --reporter=lcov --reporter=text ava --no-worker-threads test/*.test.ts --tap",
+		"coverage:report": "c8 report --reporter=text-lcov > coverage/coverage.lcov",
+		"preversion": "yarn clean && yarn dist && yarn test",
+		"version": "yarn dist && git add -u",
+		"postversion": "git push && git push --tags && npm publish && yarn coverage:report"
+	},
+	"devDependencies": {
+		"@types/node": "^20.10.6",
+		"@types/tape": "5.6.4",
+		"@typescript-eslint/eslint-plugin": "6.17.0",
+		"@typescript-eslint/parser": "^6.17.0",
+		"ava": "^6.0.1",
+		"c8": "^8.0.0",
+		"coveralls": "3.1.1",
+		"eslint": "8.56.0",
+		"microbundle": "0.15.1",
+		"ndarray-pixels": "3.1.0",
+		"rimraf": "^5.0.5",
+		"tsx": "^4.7.0",
+		"typescript": "5.3.3"
+	},
+	"files": [
+		"dist/",
+		"src/",
+		"vendor/",
+		"README.md",
+		"LICENSE",
+		"package.json"
+	],
+	"dependencies": {
+		"@types/ndarray": "^1.0.14",
+		"ndarray": "^1.0.19"
+	},
+	"ava": {
+		"extensions": {
+			"ts": "module"
+		},
+		"nodeArguments": [
+			"--import=tsx"
+		]
+	}
 }
