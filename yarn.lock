@@ -4160,10 +4160,10 @@ ndarray-ops@^1.2.2:
   dependencies:
     cwise-compiler "^1.0.0"
 
-ndarray-pixels@3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/ndarray-pixels/-/ndarray-pixels-3.1.0.tgz#0e8ab0f0c04adab2f50f62f4a70442ba0c103d1b"
-  integrity sha512-icw7L/kbxlHVoBgFWc0fCl1sYcatYSoZrAudD6KiQ1WXy84hRXIfqel5CLkh/SeLhb02Q2NW1ud9lE5G84V0zQ==
+ndarray-pixels@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/ndarray-pixels/-/ndarray-pixels-4.0.0.tgz#994cf904cfaffd5c3e90028b37ef3878c5894613"
+  integrity sha512-rFNR2IMEaWWI4dCVKg63LNWizE9odBdWf49ZHl/hgMa8hh/g+u/vf6vqD0KSt+0Fw83C2G+kWLpI3YuJHqRwSg==
   dependencies:
     "@types/ndarray" "^1.0.11"
     ndarray "^1.0.19"
