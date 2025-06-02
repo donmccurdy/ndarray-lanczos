@@ -38,7 +38,7 @@
 		"coveralls": "3.1.1",
 		"eslint": "<9.0.0",
 		"microbundle": "0.15.1",
-		"ndarray-pixels": "4.1.0",
+		"ndarray-pixels": "5.0.1",
 		"rimraf": "^6.0.0",
 		"tsx": "^4.15.6",
 		"typescript": "5.8.3"
